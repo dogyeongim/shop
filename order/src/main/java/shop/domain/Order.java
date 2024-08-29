@@ -36,12 +36,14 @@ public class Order {
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
 
-        OrderCancled orderCancled = new OrderCancled(this);
-        orderCancled.publishAfterCommit();
+
     }
 
     @PreRemove
-    public void onPreRemove() {}
+    public void onPreRemove() {
+        OrderCancled orderCancled = new OrderCancled(this);
+        orderCancled.publishAfterCommit();
+    }
 
     public static OrderRepository repository() {
         OrderRepository orderRepository = OrderApplication.applicationContext.getBean(

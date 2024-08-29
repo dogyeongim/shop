@@ -32,7 +32,7 @@ public class ViewViewHandler {
             view.setProductId(orderPlaced.getProductId());
             view.setQty(orderPlaced.getQty());
             view.setAddress(orderPlaced.getAddress());
-            view.setOrderStatus(ORDERPLACED);
+            view.setOrderStatus("ORDERPLACED");
             // view 레파지 토리에 save
             viewRepository.save(view);
         } catch (Exception e) {
@@ -54,7 +54,7 @@ public class ViewViewHandler {
             if (viewOptional.isPresent()) {
                 View view = viewOptional.get();
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
-                view.setDeliveryStatus(DELIVERYSTARTED);
+                view.setDeliveryStatus("DELIVERYSTARTED");
                 // view 레파지 토리에 save
                 viewRepository.save(view);
             }

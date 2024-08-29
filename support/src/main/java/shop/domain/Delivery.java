@@ -32,8 +32,11 @@ public class Delivery {
     @PostPersist
     public void onPostPersist() {
         DeliveryStarted deliveryStarted = new DeliveryStarted(this);
-        deliveryStarted.publishAfterCommit();
+        deliveryStarted.publishAfterCommit();   
+    }
 
+    @PreRemove
+    public void onPreRemove() {
         DeliveryCancled deliveryCancled = new DeliveryCancled(this);
         deliveryCancled.publishAfterCommit();
     }
@@ -49,11 +52,14 @@ public class Delivery {
     public static void startDelivery(OrderPlaced orderPlaced) {
         //implement business logic here:
 
-        /** Example 1:  new item 
+       
         Delivery delivery = new Delivery();
+        delivery.setOrderId(orderPlaced.getId());
+        delivery.setProductId(orderPlaced.getProductId());
+        delivery.setQty(orderPlaced.getQty());
+        delivery.setAddress(orderPlaced.getAddress());
+        delivery.setStatus("DELIVERY_READY");
         repository().save(delivery);
-
-        */
 
         /** Example 2:  finding and process
         
@@ -71,24 +77,9 @@ public class Delivery {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void cancleDelivery(OrderCancled orderCancled) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Delivery delivery = new Delivery();
-        repository().save(delivery);
-
-        */
-
-        /** Example 2:  finding and process
+        //implement business logic here
         
-        repository().findById(orderCancled.get???()).ifPresent(delivery->{
-            
-            delivery // do something
-            repository().save(delivery);
-
-
-         });
-        */
+        repository().deleteByOrderId(orderCancled.getId());
 
     }
     //>>> Clean Arch / Port Method
